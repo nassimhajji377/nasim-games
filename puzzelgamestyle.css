@@ -381,47 +381,14 @@ footer {
   font: 16px Tahoma;
 }
 
-/* الشهادة */
-.certificate {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-  margin: 12px 0;
-  background: white;
-}
-
-.cert-image {
+/* الشيك الجديد */
+#cheque {
   display: block;
   width: 100%;
   height: auto;
-}
-
-.cert-overlay {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-
-#certName {
-  position: absolute;
-  top: 52%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 80%;
-  text-align: center;
-  color: #174b88;
-  font-size: 24px;
-  font-weight: bold;
-}
-
-#certDate {
-  position: absolute;
-  top: 82%;
-  left: 50%;
-  transform: translateX(-50%);
-  color: #174b88;
-  font-size: 15px;
-  font-weight: bold;
+  margin: 12px 0;
+  border-radius: 8px;
+  background: white;
 }
 
 .cert-actions {
