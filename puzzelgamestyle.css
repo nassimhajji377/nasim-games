@@ -22,12 +22,7 @@ button{font:700 14px Tahoma,Arial;cursor:pointer}
 .slot.over{background:#d9f5ff;outline:3px solid #1599df;outline-offset:-3px}
 .slot.done{background:#fff}
 .slot.done .piece{width:100%;height:100%;border:0;border-radius:0;box-shadow:none;cursor:default}
-.slot.done .piece canvas {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-}
+.slot.done .piece canvas{width:100%;height:100%;object-fit:fill}
 .tray-heading{text-align:center;font-weight:bold;margin:12px 0 7px;color:#1265a5}
 .tray{min-height:145px;border:3px dashed #2794bd;border-radius:20px;background:rgba(255,255,255,.76);padding:10px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;align-content:start}
 .piece{border:2px solid #6782a2;border-radius:7px;background:#fff;box-shadow:2px 3px 4px #aaa;cursor:grab;touch-action:none;position:relative;overflow:hidden;aspect-ratio:441/450;min-width:0}
@@ -58,3 +53,17 @@ footer{text-align:center;font-size:11px;color:#a08b3a;margin-top:14px}
 .full{width:100%;margin-top:12px}
 @media(max-width:480px){.app-shell{padding:8px 8px 18px}.hero{grid-template-columns:52px 1fr 52px}.mascot{font-size:42px}.blue-btn{font-size:12px;padding:8px 10px}.timer{padding:5px 8px}.timer strong{font-size:18px}.tray{gap:5px;padding:7px}.instruction{font-size:12px}.board-wrap{border-width:4px}.piece{border-width:1px}}
 @media(min-width:600px){.tray{grid-template-columns:repeat(5,minmax(0,1fr));min-height:200px}.piece{max-width:95px;justify-self:center;width:100%}}
+/* إصلاح تمدد قطع البازل */
+.board .slot.done .piece {
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    aspect-ratio: auto;
+    justify-self: stretch;
+}
+
+.board .slot.done .piece canvas {
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+}
