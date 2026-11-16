@@ -14,16 +14,38 @@
     statusEl.textContent = "تعذّر تحميل صورة البازل. تأكد من وجود assets/puzzle-perimeter.png.";
   };
 
-  function drawTile(index, canvas) {
-    const ctx = canvas.getContext("2d");
-    const w = 176, h = 180;
-    canvas.width = w; canvas.height = h;
-    const col = index % SIZE, row = Math.floor(index / SIZE);
-    ctx.drawImage(image, col * image.width / SIZE, row * image.height / SIZE,
-      image.width / SIZE, image.height / SIZE, 0, 0, w, h);
-    ctx.strokeStyle = "#477caa"; ctx.lineWidth = 3; ctx.strokeRect(2,2,w-4,h-4);
-    ctx.strokeStyle = "rgba(255,255,255,.8)"; ctx.lineWidth = 2; ctx.strokeRect(5,5,w-10,h-10);
-  }
+  
+ function drawTile(index, canvas) {
+  const ctx = canvas.getContext("2d");
+
+  // المحافظة على النسبة الأصلية للصورة
+  const w = 441;
+  const h = 450;
+
+  canvas.width = w;
+  canvas.height = h;
+
+  const col = index % SIZE;
+  const row = Math.floor(index / SIZE);
+
+  ctx.drawImage(
+    image,
+    col * image.width / SIZE,
+    row * image.height / SIZE,
+    image.width / SIZE,
+    image.height / SIZE,
+    0, 0, w, h
+  );
+
+  ctx.strokeStyle = "#477caa";
+  ctx.lineWidth = 3;
+  ctx.strokeRect(2, 2, w - 4, h - 4);
+
+  ctx.strokeStyle = "rgba(255,255,255,.8)";
+  ctx.lineWidth = 2;
+  ctx.strokeRect(5, 5, w - 10, h - 10);
+}
+
 
   function makePiece(index) {
     const el = document.createElement("div");
@@ -214,3 +236,18 @@
     document.getElementById("winModal").classList.add("hidden");startGame();
   });
 })();
+
+/* إصلاح تمدد قطع البازل */
+.board .slot.done .piece {
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    aspect-ratio: auto;
+    justify-self: stretch;
+}
+
+.board .slot.done .piece canvas {
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+}
