@@ -427,13 +427,13 @@
       family
     );
 
-    ctx.fillText(name, W / 2, H * 0.25);
+    ctx.fillText(name, W / 2, H * 0.35);
 
     // التاريخ
     ctx.fillStyle = "#174b88";
     ctx.font = `bold ${W * 24 / 1536}px ${family}`;
 
-    ctx.fillText(today(), W / 2, H * 0.65);
+    ctx.fillText(today(), W / 6, H * 0.68);
   }
 
   // تحميل صورة قالب الشيك
