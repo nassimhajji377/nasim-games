@@ -490,21 +490,4 @@
 
   updateCert();
 
-  const cert = document.getElementById("certificate");
-
-  const text =
-    `شهادة تقدير\nPrima Pôle\nتُسند للتلميذ(ة): ${document.getElementById("certName").textContent}\nلإتمام لعبة قواعد الرياضيات بنجاح\nالوقت: ${timerEl.textContent}\n${document.getElementById("certDate").textContent}`;
-
-  const blob = new Blob([text], {
-    type: "text/plain;charset=utf-8"
-  });
-
-  const a = document.createElement("a");
-
-  a.href = URL.createObjectURL(blob);
-  a.download = "prima-puzzle-certificate.txt";
-  a.click();
-
-  URL.revokeObjectURL(a.href);
-
 })();
