@@ -8,7 +8,7 @@
   let image = new Image(), pieces = [], placed = 0, seconds = 0, clock = null, drag = null, started = false;
 
   // صورة البازل الجديدة داخل مجلد assets.
-  image.src = "assets/chaque-math-game.png";
+  image.src = "assets/puzzle-perimeter.png";
   image.onload = () => startGame();
   image.onerror = () => {
     statusEl.textContent = "تعذّر تحميل صورة البازل. تأكد من وجود assets/assets/puzzle-perimeter.png.";
