@@ -44,11 +44,47 @@ footer{text-align:center;font-size:11px;color:#a08b3a;margin-top:14px}
 .win-card>p{text-align:center;line-height:1.8}
 .name-fields{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
 .name-fields label{font-weight:bold}.name-fields input{display:block;width:100%;margin-top:5px;padding:12px;border:2px solid #3286bb;border-radius:12px;font:16px Tahoma}
-.certificate{display:flex;position:relative;min-height:130px;border:5px double #2688c4;border-radius:12px;background:linear-gradient(110deg,#fff 0,#fff7c8 100%);overflow:hidden;padding:12px 10px;margin:12px 0;gap:10px}
-.cert-band{width:68px;flex-shrink:0;background:#f58ab1;color:#76234b;display:grid;place-items:center;text-align:center;font-weight:bold;font-size:13px;padding:5px}
-.cert-main{display:flex;flex:1;flex-direction:column;align-items:center;gap:4px;text-align:center;color:#124f91}
-.cert-main strong:first-child{font-size:20px}.cert-main b{font-size:19px;color:#0a91c7}.cert-main span{font-size:12px}.cert-main small{margin-top:6px}
-.cert-mascot{font-size:42px;align-self:center}
+.certificate {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  margin: 12px 0;
+  background: white;
+}
+
+.cert-image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.cert-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+#certName {
+  position: absolute;
+  top: 52%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  text-align: center;
+  color: #174b88;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+#certDate {
+  position: absolute;
+  top: 82%;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #174b88;
+  font-size: 15px;
+  font-weight: bold;
+}
 .cert-actions{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}.win-card>small{display:block;text-align:center;color:#777;margin:10px 0}
 .full{width:100%;margin-top:12px}
 @media(max-width:480px){.app-shell{padding:8px 8px 18px}.hero{grid-template-columns:52px 1fr 52px}.mascot{font-size:42px}.blue-btn{font-size:12px;padding:8px 10px}.timer{padding:5px 8px}.timer strong{font-size:18px}.tray{gap:5px;padding:7px}.instruction{font-size:12px}.board-wrap{border-width:4px}.piece{border-width:1px}}
