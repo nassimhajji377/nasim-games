@@ -427,7 +427,7 @@
       family
     );
 
-    ctx.fillText(name, W / 2, H * 0.55);
+    ctx.fillText(name, W / 2, H * 0.45);
 
     // التاريخ
     ctx.fillStyle = "#174b88";
