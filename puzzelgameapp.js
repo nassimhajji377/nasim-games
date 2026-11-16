@@ -596,8 +596,8 @@
   );
 
   document.getElementById("home").addEventListener("click", () => {
-    document.getElementById("rulesModal").classList.remove("hidden");
-  });
+  window.location.href = "index.html";
+});
 
   document.getElementById("sound").addEventListener("click", () => {
     const utterance = new SpeechSynthesisUtterance(
