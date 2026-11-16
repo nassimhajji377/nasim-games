@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#061427">
+  <title>أنقذوا بريمو بجدول الضرب</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=4">
+</head>
+<body>
+<main class="app">
+
+  <header class="head">
+    <img id="logo" class="logo" alt="" src="assets/logo.png">
+    <div class="titles">
+      <h1 id="title">أنقذوا بريمو بجدول الضرب</h1>
+      <p id="credit" class="credit"></p>
+    </div>
+  </header>
+
+  <section class="top ltr">
+    <div class="tank" id="tank">
+      <div class="tank-inner">
+        <div class="ticks" id="ticks"></div>
+        <img id="hero" class="hero" alt="بريمو" src="assets/hero.png">
+        <div class="water" id="water"><div class="bubbles" id="bubbles"></div></div>
+      </div>
+      <div class="tank-caption" id="tankCaption">ml / 1000 ml 0</div>
+    </div>
+
+    <aside class="stats">
+      <div class="stat"><span class="stat-l">الوقت</span><b id="time">04</b><span class="stat-s">ثواني</span></div>
+      <div class="stat"><span class="stat-l">الإجابات الصحيحة</span><b id="correct">0/10</b></div>
+      <div class="stat"><span class="stat-l">المحاولات</span><b id="attempts">0</b></div>
+      <div class="stat water-stat"><span class="stat-l">مستوى الماء</span><b id="waterLevel">ml 0</b></div>
+    </aside>
+  </section>
+
+  <section class="panel">
+    <div class="equation ltr" id="equation">
+      <div class="answer" id="answer"><span class="dash">—</span></div>
+      <span class="op">=</span>
+      <div class="num n1" id="n1">0</div>
+      <span class="op">×</span>
+      <div class="num n2" id="n2">0</div>
+    </div>
+    <p class="hint" id="hint">أدخل حاصل الضرب خلال 4 ثوانٍ — التحقق آلي.</p>
+
+    <div class="keypad ltr" id="keypad">
+      <button data-k="3">3</button><button data-k="2">2</button><button data-k="1">1</button>
+      <button data-k="6">6</button><button data-k="5">5</button><button data-k="4">4</button>
+      <button data-k="9">9</button><button data-k="8">8</button><button data-k="7">7</button>
+      <button class="home" id="homeBtn" type="button">🏠<small>الصفحة الرئيسية</small></button>
+      <button data-k="0">0</button>
+      <button class="back" id="backBtn" type="button" aria-label="مسح">⌫</button>
+    </div>
+
+    <button class="start" id="startBtn" type="button">ابدأ التحدّي ▶</button>
+    <p class="status" id="status">لديك 4 ثوانٍ لإدخال الإجابة.</p>
+  </section>
+</main>
+
+<!-- شاشة الفوز + الشيك -->
+<div class="overlay" id="winOverlay" hidden>
+  <div class="card win-card">
+    <h2>🎉 مبروك! أكملت التحدي</h2>
+    <p>اكتب اسمك ولقبك باش نجهزولك شيك بريماتي بتميزاتي.</p>
+    <div class="fields">
+      <label>الاسم<input id="firstName" type="text" autocomplete="given-name" placeholder="الاسم"></label>
+      <label>اللقب<input id="lastName" type="text" autocomplete="family-name" placeholder="اللقب"></label>
+    </div>
+    <canvas id="cheque" width="1536" height="659"></canvas>
+    <div class="row">
+      <button class="btn blue" id="shareBtn" type="button">مشاركة الشيك</button>
+      <button class="btn blue" id="downloadBtn" type="button">تنزيل الشيك</button>
+    </div>
+    <p class="small">التاريخ يُؤخذ آليًا من يوم اللعب. يمكنك تنزيل صورة الشيك أو مشاركتها. بعد الانتهاء، ارجع إلى اللعبة.</p>
+    <button class="btn green" id="againBtn1" type="button">العب من جديد</button>
+  </div>
+</div>
+
+<!-- شاشة الخسارة -->
+<div class="overlay" id="loseOverlay" hidden>
+  <div class="card msg-card lose">
+    <h2>غرق بريمو! 💧</h2>
+    <p>وصل الماء إلى 1000 ml. لا تقلق، يمكنك المحاولة مرة أخرى وإنقاذه!</p>
+    <button class="btn green" id="againBtn2" type="button">العب من جديد</button>
+  </div>
+</div>
+
+<script src="cheque-data.js"></script>
+<script src="app.js?v=6"></script>
+</body>
+</html>
