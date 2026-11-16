@@ -53,17 +53,3 @@ footer{text-align:center;font-size:11px;color:#a08b3a;margin-top:14px}
 .full{width:100%;margin-top:12px}
 @media(max-width:480px){.app-shell{padding:8px 8px 18px}.hero{grid-template-columns:52px 1fr 52px}.mascot{font-size:42px}.blue-btn{font-size:12px;padding:8px 10px}.timer{padding:5px 8px}.timer strong{font-size:18px}.tray{gap:5px;padding:7px}.instruction{font-size:12px}.board-wrap{border-width:4px}.piece{border-width:1px}}
 @media(min-width:600px){.tray{grid-template-columns:repeat(5,minmax(0,1fr));min-height:200px}.piece{max-width:95px;justify-self:center;width:100%}}
-/* إصلاح تمدد قطع البازل */
-.board .slot.done .piece {
-    width: 100%;
-    height: 100%;
-    max-width: none;
-    aspect-ratio: auto;
-    justify-self: stretch;
-}
-
-.board .slot.done .piece canvas {
-    width: 100%;
-    height: 100%;
-    object-fit: fill;
-}
