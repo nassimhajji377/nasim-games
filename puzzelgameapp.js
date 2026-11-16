@@ -11,7 +11,7 @@
   image.src = "assets/chaque-math-game.png";
   image.onload = () => startGame();
   image.onerror = () => {
-    statusEl.textContent = "تعذّر تحميل صورة البازل. تأكد من وجود assets/puzzle-perimeter.png.";
+    statusEl.textContent = "تعذّر تحميل صورة البازل. تأكد من وجود assets/chaque-math-game.png.";
   };
 
 
