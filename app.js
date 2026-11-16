@@ -13,7 +13,7 @@ const CONFIG = {
   secondsPerQuestion: 4,         // الوقت لكل سؤال
   maxWater: 1000,                // مستوى الغرق (ml)
   waterPerMistake: 200,          // الماء المضاف لكل خطأ (ml)
-  maxFactor: 10                  // جدول الضرب من 0 إلى هذا الرقم
+  maxFactor:                   // جدول الضرب من 0 إلى هذا الرقم
 };
 
 (() => {
