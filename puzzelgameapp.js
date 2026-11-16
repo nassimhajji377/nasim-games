@@ -218,7 +218,7 @@ function drawTile(index, canvas) {
     const a=document.getElementById("firstName").value.trim(),b=document.getElementById("lastName").value.trim();
     document.getElementById("certName").textContent=(a+" "+b).trim()||"اسمك هنا";
   }
-  document.getElementById("downloadCert").addEventListener("click",()=>{
+document.getElementById("downloadCert").addEventListener("click", () => {   updateCert();    const img = new Image();   img.src = "assets/chaque-math-game.png";    img.onload = () => {     const canvas = document.createElement("canvas");     canvas.width = img.naturalWidth;     canvas.height = img.naturalHeight;      const ctx = canvas.getContext("2d");     ctx.drawImage(img, 0, 0);      const name = document.getElementById("certName").textContent;     const date = document.getElementById("certDate").textContent;      ctx.textAlign = "center";     ctx.fillStyle = "#174b88";     ctx.font = "bold 38px Tahoma";     ctx.fillText(name, canvas.width / 2, canvas.height * 0.55);      ctx.font = "bold 24px Tahoma";     ctx.fillText(date, canvas.width / 2, canvas.height * 0.84);      const link = document.createElement("a");     link.download = "chaque-math.png";     link.href = canvas.toDataURL("image/png");     link.click();   };    img.onerror = () => {     alert("تعذّر تحميل صورة الشيك. تأكد من وجودها داخل مجلد assets.");   }; });
     updateCert();
     const cert=document.getElementById("certificate");
     const text=`شهادة تقدير\nPrima Pôle\nتُسند للتلميذ(ة): ${document.getElementById("certName").textContent}\nلإتمام لعبة قواعد الرياضيات بنجاح\nالوقت: ${timerEl.textContent}\n${document.getElementById("certDate").textContent}`;
