@@ -22,7 +22,12 @@ button{font:700 14px Tahoma,Arial;cursor:pointer}
 .slot.over{background:#d9f5ff;outline:3px solid #1599df;outline-offset:-3px}
 .slot.done{background:#fff}
 .slot.done .piece{width:100%;height:100%;border:0;border-radius:0;box-shadow:none;cursor:default}
-.slot.done .piece canvas{width:100%;height:100%;object-fit:fill}
+.slot.done .piece canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
 .tray-heading{text-align:center;font-weight:bold;margin:12px 0 7px;color:#1265a5}
 .tray{min-height:145px;border:3px dashed #2794bd;border-radius:20px;background:rgba(255,255,255,.76);padding:10px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;align-content:start}
 .piece{border:2px solid #6782a2;border-radius:7px;background:#fff;box-shadow:2px 3px 4px #aaa;cursor:grab;touch-action:none;position:relative;overflow:hidden;aspect-ratio:441/450;min-width:0}
