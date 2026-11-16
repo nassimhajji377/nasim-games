@@ -9,7 +9,7 @@
 
   // صورة البازل الجديدة: قواعد المحيط التي أرسلها المستخدم.
   // ضع ملف puzzle-perimeter.png بجانب ملفات HTML وJavaScript.
-  image.src = "puzzle-perimeter.png";
+  image.src = "assets/puzzle-perimeter.png";
   image.onload = () => startGame();
   image.onerror = () => {
     statusEl.textContent = "تعذّر تحميل صورة البازل. تأكد من وجود puzzle-perimeter.png بجانب ملفات اللعبة.";
