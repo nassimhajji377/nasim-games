@@ -29,7 +29,7 @@
     const el = document.createElement("div");
     el.className = "piece"; el.draggable = false; el.dataset.index = index;
     const c = document.createElement("canvas"); drawTile(index,c); el.appendChild(c);
-    el.setAttribute("aria-label", قطعة رقم ${index+1});
+    el.setAttribute("aria-label", `قطعة رقم ${index+1}`);
     el.addEventListener("pointerdown", beginDrag);
     return el;
   }
@@ -38,7 +38,7 @@
     if (clock) clearInterval(clock);
     clock = setInterval(() => {
       seconds++;
-      timerEl.textContent = ${String(Math.floor(seconds/60)).padStart(2,"0")}:${String(seconds%60).padStart(2,"0")};
+      timerEl.textContent = `${String(Math.floor(seconds/60)).padStart(2,"0")}:${String(seconds%60).padStart(2,"0")}`;
     },1000);
   }
 
@@ -64,7 +64,7 @@
     for(let i=remaining.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[remaining[i],remaining[j]]=[remaining[j],remaining[i]];}
     tray.innerHTML=""; remaining.forEach(p=>tray.appendChild(p));
     if(placed===0) statusEl.textContent="تم بعثرة القطع! اسحب كل قطعة إلى مكانها الصحيح.";
-    else statusEl.textContent=بقيت ${TOTAL-placed} قطعة. واصل اللعب!;
+    else statusEl.textContent=`بقيت ${TOTAL-placed} قطعة. واصل اللعب!`;
   }
 
   function beginDrag(e) {
@@ -163,7 +163,7 @@
       item.classList.remove("selected","dragging");
       item.style.cssText="";
       placed++;
-      statusEl.textContent=أحسنت! ${placed} من ${TOTAL} قطعة صحيحة ⭐;
+      statusEl.textContent=`أحسنت! ${placed} من ${TOTAL} قطعة صحيحة ⭐`;
       if(placed===TOTAL) win();
     } else {
       item.classList.remove("selected","dragging");
@@ -178,7 +178,7 @@
     const name=document.getElementById("firstName"), surname=document.getElementById("lastName");
     document.getElementById("certDate").textContent=new Date().toLocaleDateString("ar-TN");
     document.getElementById("winModal").classList.remove("hidden");
-    statusEl.textContent=🎉 مبروك! أكملت الأحجية في ${timerEl.textContent};
+    statusEl.textContent=`🎉 مبروك! أكملت الأحجية في ${timerEl.textContent}`;
     name.focus();
   }
 
@@ -199,13 +199,13 @@
   document.getElementById("downloadCert").addEventListener("click",()=>{
     updateCert();
     const cert=document.getElementById("certificate");
-    const text=شهادة تقدير\nPrima Pôle\nتُسند للتلميذ(ة): ${document.getElementById("certName").textContent}\nلإتمام لعبة قواعد الرياضيات بنجاح\nالوقت: ${timerEl.textContent}\n${document.getElementById("certDate").textContent};
+    const text=`شهادة تقدير\nPrima Pôle\nتُسند للتلميذ(ة): ${document.getElementById("certName").textContent}\nلإتمام لعبة قواعد الرياضيات بنجاح\nالوقت: ${timerEl.textContent}\n${document.getElementById("certDate").textContent}`;
     const blob=new Blob([text],{type:"text/plain;charset=utf-8"});
     const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="prima-puzzle-certificate.txt";a.click();URL.revokeObjectURL(a.href);
   });
   document.getElementById("shareCert").addEventListener("click",async()=>{
     updateCert();
-    const text=أكملت لعبة Prima Puzzle بنجاح! ${document.getElementById("certName").textContent} — الوقت ${timerEl.textContent};
+    const text=`أكملت لعبة Prima Puzzle بنجاح! ${document.getElementById("certName").textContent} — الوقت ${timerEl.textContent}`;
     if(navigator.share){try{await navigator.share({title:"شهادة Prima Puzzle",text});}catch(e){}}
     else if(navigator.clipboard){await navigator.clipboard.writeText(text);alert("تم نسخ نص الشهادة للمشاركة.");}
     else alert(text);
