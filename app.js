@@ -9,11 +9,11 @@ const CONFIG = {
   chequeTitle: 'شيك الإنجاز',
   chequeImage: 'assets/cheque-template.jpg', // قالب الشيك
   chequeReason: 'أنقذوا بريمو من الغرق بجدول الضرب',
-  questionsToWin: 10,            // عدد الإجابات الصحيحة للفوز
+  questionsToWin: 33,            // عدد الإجابات الصحيحة للفوز
   secondsPerQuestion: 4,         // الوقت لكل سؤال
   maxWater: 1000,                // مستوى الغرق (ml)
   waterPerMistake: 200,          // الماء المضاف لكل خطأ (ml)
-  maxFactor: 10                  // جدول الضرب من 0 إلى هذا الرقم
+  maxFactor: 33                  // جدول الضرب من 0 إلى هذا الرقم
 };
 
 (() => {
