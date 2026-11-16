@@ -28,7 +28,7 @@
       "تعذّر تحميل صورة البازل. تأكد من وجودها داخل مجلد assets.";
   };
 
-  // رسم قطعة من الصورة الأصلية مع المحافظة على النسبة
+  // رسم قطعة من الصورة الأصلية
   function drawTile(index, canvas) {
     const ctx = canvas.getContext("2d");
 
@@ -260,7 +260,6 @@
 
     let slot = target?.closest?.(".slot");
 
-    // تحديد الخانة عند الحاجة
     if (!slot) {
       const rect = board.getBoundingClientRect();
 
@@ -363,27 +362,238 @@
     }
   }
 
+  // ==================================
+  // نظام الشيك الجديد
+  // ==================================
+
+  const cheque = document.getElementById("cheque");
+  const chequeImage = new Image();
+
+  let chequeReady = false;
+
+  // تاريخ اليوم
+  function today() {
+    return new Date().toLocaleDateString("ar-TN");
+  }
+
+  // تصغير الخط إذا كان الاسم طويلاً
+  function fitText(ctx, text, maxWidth, size, family) {
+    let fontSize = size;
+
+    ctx.font = `bold ${fontSize}px ${family}`;
+
+    while (
+      ctx.measureText(text).width > maxWidth &&
+      fontSize > 14
+    ) {
+      fontSize -= 2;
+      ctx.font = `bold ${fontSize}px ${family}`;
+    }
+  }
+
+  // رسم الشيك
+  function drawCheque() {
+    if (!chequeReady) return;
+
+    const ctx = cheque.getContext("2d");
+
+    const W = cheque.width;
+    const H = cheque.height;
+
+    const first = document.getElementById("firstName").value.trim();
+    const last = document.getElementById("lastName").value.trim();
+
+    const name = `${first} ${last}`.trim() || "اسمك هنا";
+
+    ctx.clearRect(0, 0, W, H);
+
+    // رسم صورة قالب الشيك
+    ctx.drawImage(chequeImage, 0, 0, W, H);
+
+    const family = "Tahoma, Arial, sans-serif";
+
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.direction = "rtl";
+
+    // الاسم واللقب
+    ctx.fillStyle = "#174b88";
+
+    fitText(
+      ctx,
+      name,
+      W * 0.8,
+      W * 38 / 1536,
+      family
+    );
+
+    ctx.fillText(name, W / 2, H * 0.55);
+
+    // التاريخ
+    ctx.fillStyle = "#174b88";
+    ctx.font = `bold ${W * 24 / 1536}px ${family}`;
+
+    ctx.fillText(today(), W / 2, H * 0.85);
+  }
+
+  // تحميل صورة قالب الشيك
+  chequeImage.onload = () => {
+    cheque.width = chequeImage.naturalWidth;
+    cheque.height = chequeImage.naturalHeight;
+
+    chequeReady = true;
+
+    drawCheque();
+  };
+
+  chequeImage.onerror = () => {
+    console.error(
+      "تعذّر تحميل صورة الشيك. تحقق من assets/chaque-math-game.png"
+    );
+  };
+
+  chequeImage.src = "assets/chaque-math-game.png";
+
+  // تحديث الشيك عند كتابة الاسم
+  document.getElementById("firstName").addEventListener(
+    "input",
+    drawCheque
+  );
+
+  document.getElementById("lastName").addEventListener(
+    "input",
+    drawCheque
+  );
+
+  // تحويل الشيك إلى صورة PNG
+  function chequeBlob() {
+    return new Promise(resolve => {
+      cheque.toBlob(resolve, "image/png");
+    });
+  }
+
+  // اسم ملف الشيك
+  function chequeFileName() {
+    const name =
+      document.getElementById("firstName").value.trim() || "champion";
+
+    const safeName = name.replace(/[\\/:*?"<>|]/g, "_");
+
+    return `prima-puzzle-${safeName}.png`;
+  }
+
+  // تنزيل الشيك
+  async function downloadCheque() {
+    if (!chequeReady) {
+      alert("انتظر قليلاً حتى يتم تحميل صورة الشيك.");
+      return;
+    }
+
+    drawCheque();
+
+    const blob = await chequeBlob();
+
+    if (!blob) {
+      alert("تعذّر إنشاء صورة الشيك.");
+      return;
+    }
+
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+
+    link.href = url;
+    link.download = chequeFileName();
+
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    setTimeout(() => {
+      URL.revokeObjectURL(url);
+    }, 4000);
+  }
+
+  document.getElementById("downloadCert").addEventListener(
+    "click",
+    downloadCheque
+  );
+
+  // مشاركة الشيك كصورة
+  document.getElementById("shareCert").addEventListener(
+    "click",
+    async () => {
+      if (!chequeReady) {
+        alert("انتظر قليلاً حتى يتم تحميل صورة الشيك.");
+        return;
+      }
+
+      drawCheque();
+
+      const blob = await chequeBlob();
+
+      if (!blob) {
+        alert("تعذّر إنشاء صورة الشيك.");
+        return;
+      }
+
+      const file = new File(
+        [blob],
+        chequeFileName(),
+        { type: "image/png" }
+      );
+
+      if (
+        navigator.canShare &&
+        navigator.canShare({ files: [file] }) &&
+        navigator.share
+      ) {
+        try {
+          await navigator.share({
+            files: [file],
+            title: "شيك Prima Puzzle"
+          });
+        } catch (e) {
+          // المستخدم قد يغلق نافذة المشاركة
+        }
+      } else {
+        await downloadCheque();
+      }
+    }
+  );
+
+  // ==================================
   // الفوز
+  // ==================================
+
   function win() {
-    if (clock) clearInterval(clock);
-
-    const name = document.getElementById("firstName");
-
-    document.getElementById("certDate").textContent =
-      new Date().toLocaleDateString("ar-TN");
+    if (clock) {
+      clearInterval(clock);
+      clock = null;
+    }
 
     document.getElementById("winModal").classList.remove("hidden");
+
+    drawCheque();
 
     statusEl.textContent =
       `🎉 مبروك! أكملت الأحجية في ${timerEl.textContent}`;
 
-    name.focus();
+    document.getElementById("firstName").focus();
   }
 
-  // الأزرار
-  document.getElementById("newGame").addEventListener("click", startGame);
+  // ==================================
+  // الأزرار الأصلية
+  // ==================================
 
-  document.getElementById("shuffle").addEventListener("click", shufflePieces);
+  document.getElementById("newGame").addEventListener(
+    "click",
+    startGame
+  );
+
+  document.getElementById("shuffle").addEventListener(
+    "click",
+    shufflePieces
+  );
 
   document.getElementById("home").addEventListener("click", () => {
     document.getElementById("rulesModal").classList.remove("hidden");
@@ -400,94 +610,20 @@
     speechSynthesis.speak(utterance);
   });
 
+  // إغلاق النوافذ
   document.querySelectorAll("[data-close]").forEach(b => {
     b.addEventListener("click", () => {
       document.getElementById(b.dataset.close).classList.add("hidden");
     });
   });
 
-  // تحديث الشهادة
-  document.getElementById("firstName").addEventListener("input", updateCert);
-  document.getElementById("lastName").addEventListener("input", updateCert);
-
-  function updateCert() {
-    const a = document.getElementById("firstName").value.trim();
-    const b = document.getElementById("lastName").value.trim();
-
-    document.getElementById("certName").textContent =
-      (a + " " + b).trim() || "اسمك هنا";
-  }
-
-  // تنزيل صورة الشهادة
-  document.getElementById("downloadCert").addEventListener("click", () => {
-    updateCert();
-
-    const img = new Image();
-
-    img.src = "assets/chaque-math-game.png";
-
-    img.onload = () => {
-      const canvas = document.createElement("canvas");
-
-      canvas.width = img.naturalWidth;
-      canvas.height = img.naturalHeight;
-
-      const ctx = canvas.getContext("2d");
-
-      ctx.drawImage(img, 0, 0);
-
-      const name = document.getElementById("certName").textContent;
-      const date = document.getElementById("certDate").textContent;
-
-      ctx.textAlign = "center";
-      ctx.fillStyle = "#174b88";
-
-      ctx.font = "bold 38px Tahoma";
-      ctx.fillText(name, canvas.width / 2, canvas.height * 0.55);
-
-      ctx.font = "bold 24px Tahoma";
-      ctx.fillText(date, canvas.width / 2, canvas.height * 0.84);
-
-      const link = document.createElement("a");
-
-      link.download = "chaque-math.png";
-      link.href = canvas.toDataURL("image/png");
-      link.click();
-    };
-
-    img.onerror = () => {
-      alert("تعذّر تحميل صورة الشيك. تأكد من وجودها داخل مجلد assets.");
-    };
-  });
-
-  // مشاركة الشهادة
-  document.getElementById("shareCert").addEventListener("click", async () => {
-    updateCert();
-
-    const text =
-      `أكملت لعبة Prima Puzzle بنجاح! ${document.getElementById("certName").textContent} — الوقت ${timerEl.textContent}`;
-
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: "شهادة Prima Puzzle",
-          text
-        });
-      } catch (e) {}
-    } else if (navigator.clipboard) {
-      await navigator.clipboard.writeText(text);
-      alert("تم نسخ نص الشهادة للمشاركة.");
-    } else {
-      alert(text);
-    }
-  });
-
   // اللعب مرة أخرى
-  document.getElementById("playAgain").addEventListener("click", () => {
-    document.getElementById("winModal").classList.add("hidden");
-    startGame();
-  });
-
-  updateCert();
+  document.getElementById("playAgain").addEventListener(
+    "click",
+    () => {
+      document.getElementById("winModal").classList.add("hidden");
+      startGame();
+    }
+  );
 
 })();
