@@ -627,3 +627,13 @@
   );
 
 })();
+
+// موسيقى خلفية لعبة البازل
+const music = new Audio("assets/math1-music.mp3");
+
+music.loop = true;
+music.volume = 0.25;
+
+document.addEventListener("click", () => {
+  music.play().catch(() => {});
+}, { once: true });
