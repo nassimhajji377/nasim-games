@@ -632,8 +632,8 @@
 const music = new Audio("assets/math1-music.mp3");
 
 music.loop = true;
-music.volume = 0.25;
+music.volume = 0.15;
 
-document.addEventListener("click", () => {
-  music.play().catch(() => {});
-}, { once: true });
+music.play().catch(() => {
+  console.log("المتصفح منع التشغيل التلقائي للموسيقى");
+});
