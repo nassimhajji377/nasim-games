@@ -363,107 +363,82 @@
   }
 
   // ==================================
-  // نظام الشيك الجديد
+  // ==================================
+  // نظام الشيك المطابق للعبة الأولى
   // ==================================
 
   const cheque = document.getElementById("cheque");
-  const chequeImage = new Image();
-
+  const tpl = new Image();
   let chequeReady = false;
 
-  // تاريخ اليوم
+  const CHEQUE_REASON = "أكملت أحجية قواعد المحيط بنجاح";
+
   function today() {
-    return new Date().toLocaleDateString("ar-TN");
+    const d = new Date();
+    return `${String(d.getDate()).padStart(2, "0")}/${String(d.getMonth() + 1).padStart(2, "0")}/${d.getFullYear()}`;
   }
 
-  // تصغير الخط إذا كان الاسم طويلاً
-  function fitText(ctx, text, maxWidth, size, family) {
-    let fontSize = size;
+  function fitText(g, text, maxW, size, weight, family) {
+    let s = size;
+    g.font = `${weight} ${s}px ${family}`;
 
-    ctx.font = `bold ${fontSize}px ${family}`;
-
-    while (
-      ctx.measureText(text).width > maxWidth &&
-      fontSize > 14
-    ) {
-      fontSize -= 2;
-      ctx.font = `bold ${fontSize}px ${family}`;
+    while (g.measureText(text).width > maxW && s > 18) {
+      s -= 2;
+      g.font = `${weight} ${s}px ${family}`;
     }
   }
 
-  // رسم الشيك
   function drawCheque() {
     if (!chequeReady) return;
 
-    const ctx = cheque.getContext("2d");
-
-    const W = cheque.width;
-    const H = cheque.height;
+    const c = cheque;
+    const g = c.getContext("2d");
 
     const first = document.getElementById("firstName").value.trim();
     const last = document.getElementById("lastName").value.trim();
+    const name = `${first} ${last}`.trim();
 
-    const name = `${first} ${last}`.trim() || "اسمك هنا";
+    g.setTransform(1, 0, 0, 1, 0, 0);
+    g.clearRect(0, 0, c.width, c.height);
+    g.drawImage(tpl, 0, 0, c.width, c.height);
 
-    ctx.clearRect(0, 0, W, H);
+    g.direction = "rtl";
+    g.textAlign = "center";
+    g.textBaseline = "middle";
 
-    // رسم صورة قالب الشيك
-    ctx.drawImage(chequeImage, 0, 0, W, H);
+    const fam = "Tajawal, 'Segoe UI', Arial, sans-serif";
 
-    const family = "Tahoma, Arial, sans-serif";
+    // الاسم واللقب - نفس مكان اللعبة الأولى
+    g.fillStyle = "#0b2a6b";
+    fitText(g, name, 380, 52, 800, fam);
+    g.fillText(name, 718, 270);
 
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-    ctx.direction = "rtl";
+    // عبارة الإنجاز - نفس مكان اللعبة الأولى
+    g.fillStyle = "#1a2a6c";
+    fitText(g, CHEQUE_REASON, 290, 20, 700, fam);
+    g.fillText(CHEQUE_REASON, 432, 341);
 
-    // الاسم واللقب
-    ctx.fillStyle = "#174b88";
-
-    fitText(
-      ctx,
-      name,
-      W * 0.8,
-      W * 38 / 1536,
-      family
-    );
-
-    ctx.fillText(name, W / 2, H * 0.35);
-
-    // التاريخ
-    ctx.fillStyle = "#174b88";
-    ctx.font = `bold ${W * 24 / 1536}px ${family}`;
-
-    ctx.fillText(today(), W / 6, H * 0.68);
+    // التاريخ - نفس مكان اللعبة الأولى
+    g.fillStyle = "#1a2a6c";
+    g.font = `800 32px ${fam}`;
+    g.fillText(today(), 974, 416);
   }
 
-  // تحميل صورة قالب الشيك
-  chequeImage.onload = () => {
-    cheque.width = chequeImage.naturalWidth;
-    cheque.height = chequeImage.naturalHeight;
-
+  // تحميل قالب الشيك من cheque-data.js
+  tpl.onload = () => {
     chequeReady = true;
-
     drawCheque();
   };
 
-  chequeImage.onerror = () => {
-    console.error(
-      "تعذّر تحميل صورة الشيك. تحقق من assets/chaque-math-game.png"
-    );
+  tpl.onerror = () => {
+    console.error("تعذّر تحميل قالب الشيك من cheque-data.js");
   };
 
-  chequeImage.src = "assets/chaque-math-game.png";
+  tpl.src = window.CHEQUE_TEMPLATE;
 
-  // تحديث الشيك عند كتابة الاسم
-  document.getElementById("firstName").addEventListener(
-    "input",
-    drawCheque
-  );
-
-  document.getElementById("lastName").addEventListener(
-    "input",
-    drawCheque
-  );
+  // تحديث الشيك عند كتابة الاسم واللقب
+  document.getElementById("firstName").addEventListener("input", drawCheque);
+  document.getElementById("lastName").addEventListener("input", drawCheque);
 
   // تحويل الشيك إلى صورة PNG
   function chequeBlob() {
@@ -472,14 +447,12 @@
     });
   }
 
-  // اسم ملف الشيك
+  // اسم الملف مثل اللعبة الأولى
   function chequeFileName() {
     const name =
       document.getElementById("firstName").value.trim() || "champion";
 
-    const safeName = name.replace(/[\\/:*?"<>|]/g, "_");
-
-    return `prima-puzzle-${safeName}.png`;
+    return `cheque-${name}.png`;
   }
 
   // تنزيل الشيك
@@ -508,9 +481,7 @@
     link.click();
     link.remove();
 
-    setTimeout(() => {
-      URL.revokeObjectURL(url);
-    }, 4000);
+    setTimeout(() => URL.revokeObjectURL(url), 4000);
   }
 
   document.getElementById("downloadCert").addEventListener(
@@ -518,7 +489,7 @@
     downloadCheque
   );
 
-  // مشاركة الشيك كصورة
+  // مشاركة الشيك
   document.getElementById("shareCert").addEventListener(
     "click",
     async () => {
@@ -550,7 +521,7 @@
         try {
           await navigator.share({
             files: [file],
-            title: "شيك Prima Puzzle"
+            title: "Prima Puzzle"
           });
         } catch (e) {
           // المستخدم قد يغلق نافذة المشاركة
@@ -560,6 +531,11 @@
       }
     }
   );
+
+  // تحميل خط Tajawal قبل الرسم
+  if (document.fonts && document.fonts.load) {
+    document.fonts.load("800 40px Tajawal").then(drawCheque).catch(() => {});
+  }
 
   // ==================================
   // الفوز
