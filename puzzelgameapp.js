@@ -371,7 +371,7 @@
   const tpl = new Image();
   let chequeReady = false;
 
-  const CHEQUE_REASON = "قواعد الرياضيات 1";
+  const CHEQUE_REASON = "أكملت أحجية قواعد المحيط بنجاح";
 
   function today() {
     const d = new Date();
