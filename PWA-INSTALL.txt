@@ -1,0 +1,7 @@
+NASIM-GAMES — PWA INSTALLATION
+
+Upload all files and folders in this ZIP to the root of the existing GitHub repository (keep the assets folder and the three HTML files together). Commit to the branch used by GitHub Pages.
+
+After GitHub Pages publishes the update, open the site over its HTTPS GitHub Pages URL. In Chrome desktop, use the install icon in the address bar or Chrome menu > Cast, save and share > Install page as app (wording may vary). On Android Chrome, open the site > menu > Install app / Add to Home screen.
+
+Open the site once while online so the service worker can cache the app files. The first installation/offline cache requires internet access. If Chrome previously cached an older version, reload the site or clear the site's cached data and reopen it.
